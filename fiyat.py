@@ -20,6 +20,8 @@ ac=load_workbook(filename='trendurunler.xlsx')
 
 oku=ac['urunler']
 
+altSira=0
+
 hucreNo=1
 
 while True:
@@ -29,6 +31,7 @@ while True:
     if hucreKontrol == None:
 
         print("Kontrol Bitti")
+        print("BuyBox Yüksek Fiyatlı ürün Sayısı :",altSira)
 
         break
 
@@ -55,33 +58,45 @@ while True:
                     pfiyat = secici.xpath('/html/body/div[3]/div/div/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div/div/span[1]').get()
 
                     sfiyat = secici.xpath('/html/body/div[3]/div/div/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div/div/span[2]').get()
+                    
+                    #print(satici) #Alttaki if için satıcı dönüş verisi 1 kez çalıştırılıp Alınması yeterli
 
-                    print("Kontrol Edilen Ürün  : ", hucreNo)
 
-                    print("Ürün Adı             : ", duzenle.sub('', urun).strip())
+                    if satici== "<div title=\"Kadir Corut Deha Pazarlama\" class=\"sl-nm\"><a href=\"/magaza/kadir-corut-deha-pazarlama-m-110677\">Kadir Corut Deha Pazarlama</a></div>":
 
-                    print("Ürün Satıcısı        : ", duzenle.sub('', satici).strip())
+                        hucreNo += 1
 
-                    try:
+                        continue
+                    else:
+                        print("Kontrol Edilen Ürün  : ", hucreNo)
 
-                        print("Ürün Piyasa Fiyatı   : ", duzenle.sub('', pfiyat).strip())
+                        print("Ürün Adı             : ", duzenle.sub('', urun).strip())
+                        try:
+                            print("Ürün Satıcısı        : ",duzenle.sub('',satici).strip())
+                        except:
+                            print("Satışta Değil")
+                        try:
 
-                    except:
-                        print("Ürün Piyasa Fiyatı   : Ürün Satışa KAPALI!")
+                            print("Ürün Piyasa Fiyatı   : ", duzenle.sub('', pfiyat).strip())
 
-                    try :
+                        except:
+                            print("Ürün Piyasa Fiyatı   : Ürün Satışa KAPALI!")
 
-                        print("Ürün Satış  Fiyatı   : ", duzenle.sub('', sfiyat).strip())
+                        try :
 
-                    except:
+                            print("Ürün Satış  Fiyatı   : ", duzenle.sub('', sfiyat).strip())
 
-                        print("Ürün Satış  Fiyatı   : Ürüne İndirim Uygulanmamış")
+                        except:
 
-                        pass
+                            print("Ürün Satış  Fiyatı   : Ürüne İndirim Uygulanmamış")
 
-                    print("Ürün Adresi          :", urunAdresi)
+                            pass
 
-                    print("*" * 25)
+                        print("Ürün Adresi          :", urunAdresi)
+
+                        print("*" * 25)
+                        altSira+=1
+
 
         else:
 
