@@ -31,6 +31,7 @@ while True:
     if hucreKontrol == None:
 
         print("Kontrol Bitti")
+        
         print("BuyBox Yüksek Fiyatlı ürün Sayısı :",altSira)
 
         break
@@ -61,8 +62,7 @@ while True:
                     
                     #print(satici) #Alttaki if için satıcı dönüş verisi 1 kez çalıştırılıp Alınması yeterli
 
-
-                    if satici== "<div title=\"Kadir Corut Deha Pazarlama\" class=\"sl-nm\"><a href=\"/magaza/kadir-corut-deha-pazarlama-m-110677\">Kadir Corut Deha Pazarlama</a></div>":
+                    if satici== "62. satırdaki print'in dönüşünü değişiklik yapmadan buraya ekleyin":
 
                         hucreNo += 1
 
