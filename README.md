@@ -3,3 +3,6 @@ uygulamanın çalışması için klasörle içine xlsx dosyası eklenmesi gerekm
 
 19. satırda xlsx dosya adı değiştirilmeli
 21. Satırda çalışma sayfası adı değişmeli
+
+excell linklerinde sondaki ?merchantId=xxxxx yeri silinmeli ( ctrl+h ile temizlenebilir ) 
+aksi durumda sürekli kendi mağazanızın ürünleri aktif olarak görüntülenecektir
