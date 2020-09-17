@@ -1,5 +1,5 @@
 Trendyol mağazası olanlar için buybox'un basit versiyonu fiyat.py içindedir. ( Tasarım daha oluşmadı)
-uygulamanın çalışması için klasörle içine xlsx dosyası eklenmesi gerekmekte..
+uygulamanın çalışması için klasörle içine trendyolKontrol.xlsx ve trendurunler.xlsx dosyası eklenmesi gerekmekte..
 
 fiyat.py içindeki : 
     19. satırda xlsx dosya adı değiştirilmeli
