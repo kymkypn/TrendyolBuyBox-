@@ -20,9 +20,18 @@ ac=load_workbook(filename='trendurunler.xlsx')
 
 oku=ac['urunler']
 
+yazAc=load_workbook(filename='trendyolKontrol.xlsx',read_only=False)
+yazOku=yazAc['Sayfa1']
+yazOku.delete_cols(1)
+yazAc.save('trendyolKontrol.xlsx')
+yazAc.close()
+
+yazAc=load_workbook(filename='trendyolKontrol.xlsx',read_only=False)
+yazOku=yazAc['Sayfa1']
 altSira=0
 
 hucreNo=1
+
 
 while True:
 
@@ -31,7 +40,6 @@ while True:
     if hucreKontrol == None:
 
         print("Kontrol Bitti")
-        
         print("BuyBox Yüksek Fiyatlı ürün Sayısı :",altSira)
 
         break
@@ -59,10 +67,11 @@ while True:
                     pfiyat = secici.xpath('/html/body/div[3]/div/div/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div/div/span[1]').get()
 
                     sfiyat = secici.xpath('/html/body/div[3]/div/div/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div/div/span[2]').get()
-                    
+
                     #print(satici) #Alttaki if için satıcı dönüş verisi 1 kez çalıştırılıp Alınması yeterli
 
-                    if satici== "62. satırdaki print'in dönüşünü değişiklik yapmadan buraya ekleyin":
+
+                    if satici== "":# kendi mağazanızın üstte olduğu ürünler görünmemesi için 71. satırdaki printten alınan veri tek seferlik buraya eklenecek
 
                         hucreNo += 1
 
@@ -71,28 +80,55 @@ while True:
                         print("Kontrol Edilen Ürün  : ", hucreNo)
 
                         print("Ürün Adı             : ", duzenle.sub('', urun).strip())
+
+                        urunEkle=duzenle.sub('', urun).strip()
+
+                        yazOku.append({'A':urunEkle})
+
                         try:
                             print("Ürün Satıcısı        : ",duzenle.sub('',satici).strip())
+
+                            saticiEkle=duzenle.sub('', satici).strip()
+
+                            yazOku.append({'A': saticiEkle})
                         except:
-                            print("Satışta Değil")
+                            print("------------Satışta Değil------------")
+
+                            yazOku.append({'A': "------------Satışta Değil------------"})
                         try:
 
                             print("Ürün Piyasa Fiyatı   : ", duzenle.sub('', pfiyat).strip())
 
+                            pfiyatEkle=duzenle.sub('', pfiyat).strip()
+
+                            yazOku.append({'A':pfiyatEkle })
+
                         except:
-                            print("Ürün Piyasa Fiyatı   : Ürün Satışa KAPALI!")
+                            print("Ürün Piyasa Fiyatı   : Kampanya Uygullanmış")
+
+                            yazOku.append({'A': "Kampanya Uygullanmış"})
 
                         try :
 
                             print("Ürün Satış  Fiyatı   : ", duzenle.sub('', sfiyat).strip())
 
+                            sfiyatEkle=duzenle.sub('', sfiyat).strip()
+
+                            yazOku.append({'A': sfiyatEkle})
+
                         except:
 
                             print("Ürün Satış  Fiyatı   : Ürüne İndirim Uygulanmamış")
 
+                            yazOku.append({'A': "Ürüne İndirim Uygulanmamış"})
+
                             pass
 
                         print("Ürün Adresi          :", urunAdresi)
+
+                        yazOku.append({'A': urunAdresi})
+
+                        yazOku.append({'a':"*"*15})
 
                         print("*" * 25)
                         altSira+=1
@@ -105,3 +141,9 @@ while True:
         hucreNo+=1
 
         time.sleep(saniye)
+
+yazAc.save('trendyolKontrol.xlsx')
+ac.save('trendurunler.xlsx')
+
+yazAc.close()
+ac.close()
