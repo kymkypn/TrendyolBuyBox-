@@ -1,20 +1,6 @@
 from parsel import Selector
 from openpyxl import load_workbook
-import re , requests ,time
-
-
-while True:
-    try:
-
-        saniye = int(input("Kaç Saniyede bir Gösterim Yapılsın ? : "))
-
-        break
-
-    except ValueError:
-
-        print("Tam Sayı Girin !!")
-
-        continue
+import re , requests
 
 ac=load_workbook(filename='trendurunler.xlsx')
 
@@ -40,15 +26,17 @@ while True:
     if hucreKontrol == None:
 
         print("Kontrol Bitti")
-        print("BuyBox Yüksek Fiyatlı ürün Sayısı :",altSira)
+        hucreurunsay=hucreNo-1
+        altSira1="Toplamda {} Adet üründen {} Adeti Yüksek Fiyatlı".format(hucreurunsay,altSira)
 
+        yazOku.append({'A': altSira1})
         break
 
     else :
 
-        hucreIcı=oku['A{}'.format(hucreNo)].value
+        hucreIci=oku['A{}'.format(hucreNo)].value
 
-        urunAdresi=hucreIcı
+        urunAdresi=hucreIci
 
         baslik = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
@@ -62,7 +50,7 @@ while True:
 
                     urun = secici.css('#product-detail-app > div > div.pr-cn > div.pr-cn-in > div.pr-in-w > div:nth-child(1) > div.pr-in-cn > h1').get()
 
-                    satici = secici.css('#product-detail-app > div > div.pr-cn > div.pr-cn-in > div.pr-in-w > div.pr-in-sl-ar.sl-ar-en > div.pr-in-sl-bx > div.sl-nm').get()
+                    satici = secici.css('#product-detail-app > div > div.pr-cn > div.pr-cn-in > div.pr-in-at > div.pr-in-sl-cnt > div > div.sl-nm > a').get()
 
                     pfiyat = secici.xpath('/html/body/div[3]/div/div/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div/div/span[1]').get()
 
@@ -71,11 +59,13 @@ while True:
                     #print(satici) #Alttaki if için satıcı dönüş verisi 1 kez çalıştırılıp Alınması yeterli
 
 
-                    if satici== "":# kendi mağazanızın üstte olduğu ürünler görünmemesi için 71. satırdaki printten alınan veri tek seferlik buraya eklenecek
+                    if satici== "":
 
                         hucreNo += 1
-
                         continue
+
+
+
                     else:
                         print("Kontrol Edilen Ürün  : ", hucreNo)
 
@@ -92,9 +82,11 @@ while True:
 
                             yazOku.append({'A': saticiEkle})
                         except:
+
                             print("------------Satışta Değil------------")
 
                             yazOku.append({'A': "------------Satışta Değil------------"})
+
                         try:
 
                             print("Ürün Piyasa Fiyatı   : ", duzenle.sub('', pfiyat).strip())
@@ -140,7 +132,6 @@ while True:
 
         hucreNo+=1
 
-        time.sleep(saniye)
 
 yazAc.save('trendyolKontrol.xlsx')
 ac.save('trendurunler.xlsx')
